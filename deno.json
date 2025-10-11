@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@remix-run/dom"
+  },
+  "tasks": {
+    "dev": "deno run --allow-env --allow-net --watch main.tsx",
+    "start": "deno run --allow-env --allow-net main.tsx"
+  },
+  "imports": {
+    "@remix-run/dom": "npm:@remix-run/dom",
+    "@remix-run/fetch-router": "npm:@remix-run/fetch-router",
+    "@remix-run/node-fetch-server": "npm:@remix-run/node-fetch-server"
+  }
+}
