@@ -1,0 +1,11 @@
+{
+  "id": "2",
+  "author": "Jeffrey Smith",
+  "title": "My Second Post",
+  "content": "Hooray!",
+  "excerpt": "Hooray!",
+  "slug": "my-second-post",
+  "createdAt": "2025-10-13T19:42:57.632Z",
+  "updatedAt": "2025-10-14T22:31:18.457Z",
+  "status": "published"
+}

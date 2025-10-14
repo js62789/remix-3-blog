@@ -1,15 +1,23 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@remix-run/dom"
+    "jsxImportSource": "@remix-run/dom",
+    "lib": [
+      "deno.ns",
+      "dom"
+    ]
   },
   "tasks": {
-    "dev": "deno run --allow-env --allow-net --watch main.tsx",
-    "start": "deno run --allow-env --allow-net main.tsx"
+    "dev": "deno run --allow-env --allow-net --allow-read --allow-write --watch app/server/entry.tsx",
+    "dev:browser": "deno bundle app/client/**/*.tsx --outdir=public/assets --minify --code-splitting --platform=browser --format=esm --sourcemap --watch",
+    "start": "deno run --allow-env --allow-net --allow-read --allow-write app/server/entry.tsx"
   },
   "imports": {
     "@remix-run/dom": "npm:@remix-run/dom",
+    "@remix-run/events": "npm:@remix-run/events",
     "@remix-run/fetch-router": "npm:@remix-run/fetch-router",
-    "@remix-run/node-fetch-server": "npm:@remix-run/node-fetch-server"
+    "@remix-run/file-storage": "npm:@remix-run/file-storage",
+    "@remix-run/node-fetch-server": "npm:@remix-run/node-fetch-server",
+    "@remix-run/lazy-file": "npm:@remix-run/lazy-file"
   }
 }

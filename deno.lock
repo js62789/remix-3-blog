@@ -1,27 +1,84 @@
 {
-  "version": "4",
+  "version": "5",
   "specifiers": {
     "npm:@remix-run/dom@*": "0.0.0-experimental-remix-jam.1",
+    "npm:@remix-run/events@*": "0.0.0-experimental-remix-jam.1",
     "npm:@remix-run/fetch-router@*": "0.6.0",
+    "npm:@remix-run/file-storage@*": "0.9.0",
+    "npm:@remix-run/lazy-file@*": "3.5.0",
     "npm:@remix-run/node-fetch-server@*": "0.10.0",
-    "npm:@types/node@*": "22.5.4"
+    "npm:@types/node@*": "22.5.4",
+    "npm:dprint@*": "0.50.2"
   },
   "npm": {
+    "@dprint/darwin-arm64@0.50.2": {
+      "integrity": "sha512-4d08INZlTxbPW9LK9W8+93viN543/qA2Kxn4azVnPW/xCb2Im03UqJBz8mMm3nJZdtNnK3uTVG3ib1VW+XJisw==",
+      "os": ["darwin"],
+      "cpu": ["arm64"]
+    },
+    "@dprint/darwin-x64@0.50.2": {
+      "integrity": "sha512-ZXWPBwdLojhdBATq+bKwJvB7D8bIzrD6eR/Xuq9UYE7evQazUiR069d9NPF0iVuzTo6wNf9ub9SXI7qDl11EGA==",
+      "os": ["darwin"],
+      "cpu": ["x64"]
+    },
+    "@dprint/linux-arm64-glibc@0.50.2": {
+      "integrity": "sha512-marxQzRw8atXAnaawwZHeeUaaAVewrGTlFKKcDASGyjPBhc23J5fHPUPremm8xCbgYZyTlokzrV8/1rDRWhJcw==",
+      "os": ["linux"],
+      "cpu": ["arm64"]
+    },
+    "@dprint/linux-arm64-musl@0.50.2": {
+      "integrity": "sha512-oGDq44ydzo0ZkJk6RHcUzUN5sOMT5HC6WA8kHXI6tkAsLUkaLO2DzZFfW4aAYZUn+hYNpQfQD8iGew0sjkyLyg==",
+      "os": ["linux"],
+      "cpu": ["arm64"]
+    },
+    "@dprint/linux-riscv64-glibc@0.50.2": {
+      "integrity": "sha512-QMmZoZYWsXezDcC03fBOwPfxhTpPEyHqutcgJ0oauN9QcSXGji9NSZITMmtLz2Ki3T1MIvdaLd1goGzNSvNqTQ==",
+      "os": ["linux"],
+      "cpu": ["riscv64"]
+    },
+    "@dprint/linux-x64-glibc@0.50.2": {
+      "integrity": "sha512-KMeHEzb4teQJChTgq8HuQzc+reRNDnarOTGTQovAZ9WNjOtKLViftsKWW5HsnRHtP5nUIPE9rF1QLjJ/gUsqvw==",
+      "os": ["linux"],
+      "cpu": ["x64"]
+    },
+    "@dprint/linux-x64-musl@0.50.2": {
+      "integrity": "sha512-qM37T7H69g5coBTfE7SsA+KZZaRBky6gaUhPgAYxW+fOsoVtZSVkXtfTtQauHTpqqOEtbxfCtum70Hz1fr1teg==",
+      "os": ["linux"],
+      "cpu": ["x64"]
+    },
+    "@dprint/win32-arm64@0.50.2": {
+      "integrity": "sha512-kuGVHGoxLwssVDsodefUIYQRoO2fQncurH/xKgXiZwMPOSzFcgUzYJQiyqmJEp+PENhO9VT1hXUHZtlyCAWBUQ==",
+      "os": ["win32"],
+      "cpu": ["arm64"]
+    },
+    "@dprint/win32-x64@0.50.2": {
+      "integrity": "sha512-N3l9k31c3IMfVXqL0L6ygIhJFvCIrfQ+Z5Jph6RnCcBO6oDYWeYhAv/qBk1vLsF2y/e79TKsR1tvaEwnrQ03XA==",
+      "os": ["win32"],
+      "cpu": ["x64"]
+    },
     "@remix-run/dom@0.0.0-experimental-remix-jam.1": {
       "integrity": "sha512-HLLrUpSz7EicCAWQKqJt7RK2Y04sruwASP5gNgTK3GQzL216XCGoh+LjrMRQ8Aw7GFgHSkvQuyhVb6Y4xY2aDw==",
       "dependencies": [
         "@remix-run/events",
         "@remix-run/style"
-      ]
+      ],
+      "scripts": true
     },
     "@remix-run/events@0.0.0-experimental-remix-jam.1": {
-      "integrity": "sha512-4Xs0Ek3QYsx2Tq64ZkSMXN9gAwBOg42vzK/5aTkACktb6asljm/wf8mgFPtf+IUegh4BBzkapNXAdmXEh4UqNg=="
+      "integrity": "sha512-4Xs0Ek3QYsx2Tq64ZkSMXN9gAwBOg42vzK/5aTkACktb6asljm/wf8mgFPtf+IUegh4BBzkapNXAdmXEh4UqNg==",
+      "scripts": true
     },
     "@remix-run/fetch-router@0.6.0": {
       "integrity": "sha512-N5AMK2XxTFO3d8AMRWphFoRos4NjvfZpQeZW859Ade+FgP1yYRZhEYep2T3FVPBUJWPqrG7c9lIxVLcVcZUBSQ==",
       "dependencies": [
         "@remix-run/form-data-parser",
         "@remix-run/route-pattern"
+      ]
+    },
+    "@remix-run/file-storage@0.9.0": {
+      "integrity": "sha512-GbrmqGTdgevRMqkcTzGG9eyUn3eo32ST/jmqdh2g8h5MNKmONF6TJpVDZvtGhrvl93kX/k01WigUk/R8j58/eA==",
+      "dependencies": [
+        "@remix-run/lazy-file"
       ]
     },
     "@remix-run/form-data-parser@0.11.0": {
@@ -32,6 +89,12 @@
     },
     "@remix-run/headers@0.12.0": {
       "integrity": "sha512-eqVSL5UOIyqVx0NTqgtNKMKVokE9jPchkZHl/N13KKPQYw/leS8VCoX5zRhkB1UvcLyfj113LX0OvEcuNbc5Hg=="
+    },
+    "@remix-run/lazy-file@3.5.0": {
+      "integrity": "sha512-/QuQA1XXaVSco02fI2RRL6K6av81gcfb8MVtINbciqGjA24p3qAZ5M7YytLBrK0cAb7S39eEte9p0nrlqKnUrw==",
+      "dependencies": [
+        "mrmime"
+      ]
     },
     "@remix-run/multipart-parser@0.11.0": {
       "integrity": "sha512-AE/H+ok0fWOZb84sJ8vREOJiSwYoEoGL0rpHZSAiPmCkBKbnsmHCbiUtg5+wELem4Q0HAEY6vjVK83u9cIlAhw==",
@@ -46,13 +109,33 @@
       "integrity": "sha512-Wlq1LAsGZBJ5uEnUmxJDBQvpLKhay1mVvxmNl0oeKBOin6yWDB5YkJkSMAlYQi7mM/vVIDlqr183MiHi4SO7AA=="
     },
     "@remix-run/style@0.0.0-experimental-remix-jam.1": {
-      "integrity": "sha512-aRETYid6C1V1smXnhbxoFdsOi+qxvXM9NZ9UIQeRQ9ZEWT2TS1dtyeNTv6QXO1Swp9QtdWlnPb6RlzUBvG5h4Q=="
+      "integrity": "sha512-aRETYid6C1V1smXnhbxoFdsOi+qxvXM9NZ9UIQeRQ9ZEWT2TS1dtyeNTv6QXO1Swp9QtdWlnPb6RlzUBvG5h4Q==",
+      "scripts": true
     },
     "@types/node@22.5.4": {
       "integrity": "sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==",
       "dependencies": [
         "undici-types"
       ]
+    },
+    "dprint@0.50.2": {
+      "integrity": "sha512-+0Fzg+17jsMMUouK00/Fara5YtGOuE76EAJINHB8VpkXHd0n00rMXtw/03qorOgz23eo8Y0UpYvNZBJJo3aNtw==",
+      "optionalDependencies": [
+        "@dprint/darwin-arm64",
+        "@dprint/darwin-x64",
+        "@dprint/linux-arm64-glibc",
+        "@dprint/linux-arm64-musl",
+        "@dprint/linux-riscv64-glibc",
+        "@dprint/linux-x64-glibc",
+        "@dprint/linux-x64-musl",
+        "@dprint/win32-arm64",
+        "@dprint/win32-x64"
+      ],
+      "scripts": true,
+      "bin": true
+    },
+    "mrmime@2.0.1": {
+      "integrity": "sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ=="
     },
     "undici-types@6.19.8": {
       "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
@@ -61,7 +144,10 @@
   "workspace": {
     "dependencies": [
       "npm:@remix-run/dom@*",
+      "npm:@remix-run/events@*",
       "npm:@remix-run/fetch-router@*",
+      "npm:@remix-run/file-storage@*",
+      "npm:@remix-run/lazy-file@*",
       "npm:@remix-run/node-fetch-server@*"
     ]
   }

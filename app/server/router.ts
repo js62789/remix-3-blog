@@ -1,0 +1,18 @@
+import { createRouter } from "@remix-run/fetch-router";
+import { logger } from "@remix-run/fetch-router/logger-middleware";
+import { routes } from "../routes.ts";
+import * as publicHandlers from "./handlers/public.ts";
+import homeHandlers from "./handlers/home.tsx";
+import postsHandlers from "./handlers/posts.tsx";
+import adminHandlers from "./handlers/admin/index.tsx";
+
+const router = createRouter();
+
+router.use(logger());
+
+router.map(routes.assets, publicHandlers.assets);
+router.map(routes.home, homeHandlers);
+router.map(routes.posts, postsHandlers);
+router.map(routes.admin, adminHandlers);
+
+export default router;
