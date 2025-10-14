@@ -90,7 +90,14 @@ export default {
             </div>
             <div>
               <label>
-                Content: <textarea name="content">{post.content}</textarea>
+                Excerpt:{" "}
+                <textarea name="excerpt" rows={3}>{post.excerpt}</textarea>
+              </label>
+            </div>
+            <div>
+              <label>
+                Content:{" "}
+                <textarea name="content" rows={10}>{post.content}</textarea>
               </label>
             </div>
             <div>
@@ -98,7 +105,11 @@ export default {
                 Status:
                 <select name="status">
                   {statusTypes.map((status) => (
-                    <option key={status} value={status}>
+                    <option
+                      key={status}
+                      selected={post.status === status}
+                      value={status}
+                    >
                       {status.charAt(0).toUpperCase() + status.slice(1)}
                     </option>
                   ))}
@@ -133,8 +144,10 @@ export default {
     create({ formData }) {
       const title = formData.get("title") as string;
       const content = formData.get("content") as string;
+      const excerpt = formData.get("excerpt") as string;
+      const status = formData.get("status") as typeof statusTypes[number];
 
-      createPost(title, content);
+      createPost({ title, content, excerpt, status });
 
       return redirect(routes.admin.posts.index.href());
     },
@@ -143,8 +156,9 @@ export default {
       const title = formData.get("title") as string;
       const content = formData.get("content") as string;
       const status = formData.get("status") as typeof statusTypes[number];
+      const excerpt = formData.get("excerpt") as string;
 
-      updatePost(slug, title, content, status);
+      updatePost({ slug, title, content, status, excerpt });
 
       return redirect(routes.admin.posts.index.href());
     },

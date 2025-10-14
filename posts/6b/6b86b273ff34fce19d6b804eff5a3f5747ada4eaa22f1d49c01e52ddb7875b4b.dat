@@ -2,10 +2,10 @@
   "id": "1",
   "author": "Jeffrey Smith",
   "title": "My First Post",
-  "content": "Hello World",
+  "content": "## Welcome\r\nHello and welcome to my first blog post.\r\n\r\n## Section 1\r\nHere is section 1. It is a great section. To see the followup to this post, click [here](/posts/my-second-post)",
   "slug": "my-first-post",
-  "excerpt": "Hello World",
+  "excerpt": "Welcome to my blog. Let's sit down and talk through the purpose of this blog, as well as some of the initial milestones.",
   "createdAt": "2025-10-13T02:07:47.397Z",
-  "updatedAt": "2025-10-14T22:32:20.662Z",
+  "updatedAt": "2025-10-14T23:06:40.280Z",
   "status": "published"
 }

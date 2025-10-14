@@ -7,7 +7,7 @@ interface Post {
   author: string;
   title: string;
   content: string;
-  excerpt?: string;
+  excerpt: string;
   slug: string;
   status: typeof statusTypes[number];
   createdAt?: Date;
@@ -15,13 +15,6 @@ interface Post {
 }
 
 const postStorage = new LocalFileStorage("./posts");
-
-function createExcerpt(content: string) {
-  if (content.length <= 100) {
-    return content;
-  }
-  return content.substring(0, 100) + "...";
-}
 
 export async function getPublishedPosts() {
   const posts = await getAllPosts();
@@ -52,18 +45,19 @@ export async function getPostBySlug(slug: string) {
   return posts.find((post) => post.slug === slug);
 }
 
-export async function createPost(
-  title: string,
-  content: string,
-  status: typeof statusTypes[number] = "draft",
-) {
+export async function createPost({
+  title,
+  content,
+  excerpt,
+  status,
+}: Pick<Post, "title" | "content" | "excerpt" | "status">) {
   const posts = await getAllPosts();
   const newPost: Post = {
     id: (posts.length + 1).toString(),
     author: "Jeffrey Smith",
     title,
     content,
-    excerpt: createExcerpt(content),
+    excerpt,
     slug: title.toLowerCase().replace(/\s+/g, "-"),
     status,
     createdAt: new Date(),
@@ -86,12 +80,13 @@ export async function createPost(
   return newPost;
 }
 
-export async function updatePost(
-  slug: string,
-  title: string,
-  content: string,
-  status: typeof statusTypes[number] = "draft",
-) {
+export async function updatePost({
+  slug,
+  title,
+  content,
+  excerpt,
+  status,
+}: Pick<Post, "slug" | "title" | "content" | "excerpt" | "status">) {
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -101,7 +96,7 @@ export async function updatePost(
   // Update post details
   post.title = title;
   post.content = content;
-  post.excerpt = createExcerpt(content);
+  post.excerpt = excerpt;
   post.updatedAt = new Date();
   post.slug = title.toLowerCase().replace(/\s+/g, "-");
   post.status = status;

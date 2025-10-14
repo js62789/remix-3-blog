@@ -6,6 +6,7 @@ import { getPostBySlug, getPublishedPosts } from "../models/posts.ts";
 import Header from "../components/Header.tsx";
 import Card from "../components/Card.tsx";
 import Container from "../components/Container.tsx";
+import { Markdown } from "../utils/markdown.tsx";
 
 export default {
   use: [],
@@ -92,7 +93,9 @@ export default {
                 Written by {post.author}
               </address>
               <br />
-              {post.content}
+              <Markdown>
+                {post.content}
+              </Markdown>
             </article>
           </main>
         </Container>
