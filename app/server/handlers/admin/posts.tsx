@@ -13,11 +13,12 @@ import AdminLayout from "../../components/AdminLayout.tsx";
 import Button, { buttonStyles } from "../../components/Button.tsx";
 import RestfulForm from "../../components/RestfulForm.tsx";
 import RestfulLink from "../../components/RestfulLink.tsx";
+import { validateCsrfToken } from "../../middleware/csrf.ts";
 
 export default {
   use: [],
   handlers: {
-    async index() {
+    async index({ storage }) {
       const posts = await getAllPosts();
 
       return render(
@@ -54,6 +55,7 @@ export default {
                     </a>
                     <RestfulLink
                       method="DELETE"
+                      csrfToken={storage.get(SESSION_DATA_KEY).csrfToken}
                       href={routes.admin.posts.destroy.href({
                         slug: post.slug,
                       })}
@@ -68,9 +70,10 @@ export default {
         </AdminLayout>,
       );
     },
-    async edit({ params }) {
+    async edit({ params, storage }) {
       const { slug } = params!;
       const post = await getPostBySlug(slug);
+      const csrfToken = storage.get(SESSION_DATA_KEY).csrfToken;
 
       if (!post) {
         return new Response("Not found", { status: 404 });
@@ -83,6 +86,7 @@ export default {
             method="PUT"
             action={routes.admin.posts.update.href({ slug: post.slug })}
           >
+            <input type="hidden" name="_csrf" value={csrfToken} />
             <div>
               <label>
                 Title: <input type="text" name="title" value={post.title} />
@@ -121,11 +125,16 @@ export default {
         </AdminLayout>,
       );
     },
-    new() {
+    new({ storage }) {
       return render(
         <AdminLayout>
           <h1>Create New Post</h1>
           <form method="post" action={routes.admin.posts.create.href()}>
+            <input
+              type="hidden"
+              name="_csrf"
+              value={storage.get(SESSION_DATA_KEY).csrfToken}
+            />
             <div>
               <label>
                 Title: <input type="text" name="title" />
@@ -151,8 +160,20 @@ export default {
 
       return redirect(routes.admin.posts.index.href());
     },
-    update({ params, formData }) {
+    update({ formData, params, storage }) {
       const { slug } = params;
+      const csrfToken = formData.get("_csrf") as string;
+      // Validate CSRF token
+      if (!csrfToken) {
+        return new Response("CSRF token missing", { status: 400 });
+      }
+
+      if (
+        !validateCsrfToken(storage.get(SESSION_DATA_KEY).csrfToken, csrfToken)
+      ) {
+        return new Response("Invalid CSRF token", { status: 403 });
+      }
+
       const title = formData.get("title") as string;
       const content = formData.get("content") as string;
       const status = formData.get("status") as typeof statusTypes[number];
@@ -164,7 +185,9 @@ export default {
     },
     destroy({ params }) {
       const { slug } = params!;
+
       deletePostBySlug(slug);
+
       return redirect(routes.admin.posts.index.href());
     },
   },

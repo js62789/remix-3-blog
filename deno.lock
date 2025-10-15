@@ -5,6 +5,7 @@
     "npm:@remix-run/events@*": "0.0.0-experimental-remix-jam.1",
     "npm:@remix-run/fetch-router@*": "0.6.0",
     "npm:@remix-run/file-storage@*": "0.9.0",
+    "npm:@remix-run/headers@*": "0.12.0",
     "npm:@remix-run/lazy-file@*": "3.5.0",
     "npm:@remix-run/node-fetch-server@*": "0.10.0",
     "npm:@types/node@*": "22.5.4",
@@ -147,6 +148,7 @@
       "npm:@remix-run/events@*",
       "npm:@remix-run/fetch-router@*",
       "npm:@remix-run/file-storage@*",
+      "npm:@remix-run/headers@*",
       "npm:@remix-run/lazy-file@*",
       "npm:@remix-run/node-fetch-server@*"
     ]

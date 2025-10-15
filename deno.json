@@ -17,6 +17,7 @@
     "@remix-run/events": "npm:@remix-run/events",
     "@remix-run/fetch-router": "npm:@remix-run/fetch-router",
     "@remix-run/file-storage": "npm:@remix-run/file-storage",
+    "@remix-run/headers": "npm:@remix-run/headers",
     "@remix-run/node-fetch-server": "npm:@remix-run/node-fetch-server",
     "@remix-run/lazy-file": "npm:@remix-run/lazy-file"
   }

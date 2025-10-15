@@ -1,6 +1,7 @@
 import type { Remix } from "@remix-run/dom";
 
 interface RestfulLinkProps extends Remix.Props<"a"> {
+  csrfToken: string;
   method: string;
   /**
    * The name of the hidden <input> field that contains the method override value.
@@ -18,7 +19,8 @@ interface RestfulLinkProps extends Remix.Props<"a"> {
  */
 export default function RestfulLink(
   this: Remix.Handle,
-  { href, method, methodOverrideField = "_method", children }: RestfulLinkProps,
+  { csrfToken, href, method, methodOverrideField = "_method", children }:
+    RestfulLinkProps,
 ) {
   method = method.toUpperCase();
 
@@ -35,6 +37,7 @@ export default function RestfulLink(
       {method !== "POST" && (
         <input type="hidden" name={methodOverrideField} value={method} />
       )}
+      <input type="hidden" name="_csrf" value={csrfToken} />
       <button
         type="submit"
         role="link"

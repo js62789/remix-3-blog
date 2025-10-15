@@ -49,7 +49,7 @@ export async function createPost({
   title,
   content,
   excerpt,
-  status,
+  status = "draft",
 }: Pick<Post, "title" | "content" | "excerpt" | "status">) {
   const posts = await getAllPosts();
   const newPost: Post = {
@@ -85,7 +85,7 @@ export async function updatePost({
   title,
   content,
   excerpt,
-  status,
+  status = "draft",
 }: Pick<Post, "slug" | "title" | "content" | "excerpt" | "status">) {
   const post = await getPostBySlug(slug);
 
