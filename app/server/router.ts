@@ -6,10 +6,14 @@ import sitemapHandlers from "./handlers/sitemap.tsx";
 import homeHandlers from "./handlers/home.tsx";
 import postsHandlers from "./handlers/posts.tsx";
 import adminHandlers from "./handlers/admin/index.tsx";
+import { session } from "./middleware/session.ts";
+import { csrf } from "./middleware/csrf.ts";
 
 const router = createRouter();
 
 router.use(logger());
+router.use(session());
+router.use(csrf());
 
 router.map(routes.sitemap, sitemapHandlers);
 router.map(routes.assets, publicHandlers.assets);
