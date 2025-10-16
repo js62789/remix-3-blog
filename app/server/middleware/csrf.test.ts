@@ -1,28 +1,12 @@
 import * as assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { csrf } from "./csrf.ts";
-import { AppStorage, RequestMethod } from "@remix-run/fetch-router";
 import { SESSION_DATA_KEY } from "./session.ts";
-import { mockFunction, setupFakeSession } from "../../../test/helpers.ts";
-
-type MockOptions = {
-  method?: RequestMethod;
-};
-
-function createMockContext(mockOptions: MockOptions = {}) {
-  const { method = "GET" } = mockOptions;
-
-  return {
-    request: new Request("http://example.com", { method }),
-    formData: new FormData(),
-    storage: new AppStorage(),
-    method: method,
-    params: {},
-    url: new URL("http://example.com"),
-    headers: new Headers(),
-    files: new Map(),
-  };
-}
+import {
+  createMockContext,
+  mockFunction,
+  setupFakeSession,
+} from "../../../test/helpers.ts";
 
 describe("CSRF Middleware", () => {
   it("should return 400 if no session is found", async () => {

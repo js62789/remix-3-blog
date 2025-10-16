@@ -17,7 +17,3 @@ export function days(n: number) {
 export function minutes(n: number) {
   return n * 60 * 1000;
 }
-
-export function daysFromNow(n: number) {
-  return Date.now() + days(n);
-}

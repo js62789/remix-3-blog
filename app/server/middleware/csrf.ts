@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { Buffer } from "node:buffer";
 import { createStorageKey, type Middleware } from "@remix-run/fetch-router";
-import { getSessionData } from "./session.ts";
+import { SESSION_DATA_KEY } from "./session.ts";
 
 const CSRF_KEY = createStorageKey<string>();
 
@@ -23,7 +23,8 @@ export function validateCsrfToken(sessionToken: string, formToken: string) {
 export function csrf(): Middleware {
   return ({ formData, request, storage }, next) => {
     // Get the session data so we can use the sessionId to look up the CSRF token
-    const sessionData = getSessionData(storage);
+    const sessionData = storage.has(SESSION_DATA_KEY) &&
+      storage.get(SESSION_DATA_KEY);
 
     // If there's no session, we can't validate CSRF tokens
     if (!sessionData) {
