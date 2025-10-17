@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { Buffer } from "node:buffer";
 import { createStorageKey, type Middleware } from "@remix-run/fetch-router";
-import { SESSION_DATA_KEY } from "./session.ts";
+import { SESSION_ID_KEY } from "./session.ts";
 
 export const CSRF_KEY = createStorageKey<string>();
 
@@ -20,24 +20,24 @@ export function validateCsrfToken(sessionToken: string, formToken: string) {
   return crypto.timingSafeEqual(aBuf, bBuf);
 }
 
-export function csrf(): Middleware {
+export default function csrf(): Middleware {
   return ({ formData, request, storage }, next) => {
     // Get the session data so we can use the sessionId to look up the CSRF token
-    const sessionData = storage.has(SESSION_DATA_KEY) &&
-      storage.get(SESSION_DATA_KEY);
+    const sessionId = storage.has(SESSION_ID_KEY) &&
+      storage.get(SESSION_ID_KEY);
 
     // If there's no session, we can't validate CSRF tokens
-    if (!sessionData) {
+    if (!sessionId) {
       return new Response("Session not found", { status: 400 });
     }
 
     // Get or create a CSRF token for this session
-    let token = csrfTokens.get(sessionData.sessionId);
+    let token = csrfTokens.get(sessionId);
 
     // If no token exists, create one and store it for validation later
     if (!token) {
       token = createCsrfToken();
-      csrfTokens.set(sessionData.sessionId, token);
+      csrfTokens.set(sessionId, token);
     }
 
     // Store the token for application usage
@@ -61,7 +61,7 @@ export function csrf(): Middleware {
       const newToken = createCsrfToken();
 
       // Store the new token for validation later
-      csrfTokens.set(sessionData.sessionId, newToken);
+      csrfTokens.set(sessionId, newToken);
 
       // Store the new token for application usage
       storage.set(CSRF_KEY, newToken);

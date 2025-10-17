@@ -1,32 +1,5 @@
-import {
-  AppStorage,
-  type RequestContext,
-  type RequestMethod,
-} from "@remix-run/fetch-router";
-import {
-  SESSION_DATA_KEY,
-  SessionStore,
-} from "../app/server/middleware/session.ts";
-
-export function createSession(
-  context: RequestContext,
-  store: SessionStore,
-  sessionId: string,
-) {
-  // Simulate that the user has a session cookie
-  context.headers.set("Cookie", `sessionId=${sessionId}`);
-
-  const initialSession = {
-    sessionId,
-  };
-
-  store.addItems([initialSession]);
-
-  // Store the session in the context storage
-  context.storage.set(SESSION_DATA_KEY, initialSession);
-
-  return store;
-}
+import { AppStorage, type RequestMethod } from "@remix-run/fetch-router";
+import { SESSION_ID_KEY } from "../app/server/middleware/session.ts";
 
 export function mockFunction<T extends (...args: any[]) => any>(
   fn: T,
@@ -42,20 +15,36 @@ export function mockFunction<T extends (...args: any[]) => any>(
 }
 
 type MockContextOptions = {
+  headers?: HeadersInit;
   method?: RequestMethod;
+  sessionId?: string;
 };
 
 export function createMockContext(mockOptions: MockContextOptions = {}) {
-  const { method = "GET" } = mockOptions;
+  const { method = "GET", sessionId } = mockOptions;
+  let { headers } = mockOptions;
 
-  return {
-    request: new Request("http://example.com", { method }),
+  if (sessionId) {
+    headers = {
+      ...headers,
+      Cookie: `sessionId=${sessionId}`,
+    };
+  }
+
+  const context = {
+    request: new Request("http://example.com", { headers, method }),
     formData: new FormData(),
     storage: new AppStorage(),
     method: method,
     params: {},
     url: new URL("http://example.com"),
-    headers: new Headers(),
+    headers: new Headers(headers),
     files: new Map(),
   };
+
+  if (sessionId) {
+    context.storage.set(SESSION_ID_KEY, sessionId);
+  }
+
+  return context;
 }

@@ -1,72 +1,86 @@
 import { Cookie, SetCookie } from "@remix-run/headers";
-import { createStorageKey, type Middleware } from "@remix-run/fetch-router";
-import { MemoryStore, MemoryStoreOptions } from "../utils/memoryStore.ts";
+import { createStorageKey, Middleware } from "@remix-run/fetch-router";
+
+type SessionId = string;
 
 interface SessionData {
-  sessionId: string;
+  sessionId: SessionId;
 }
 
-export const SESSION_DATA_KEY = createStorageKey<SessionData>();
+export const SESSION_ID_KEY = createStorageKey<SessionId>();
 
-function setSessionCookie(headers: Headers, sessionId: string): void {
-  const cookie = new SetCookie({
-    name: "sessionId",
-    value: sessionId,
-    path: "/",
-    httpOnly: true,
-    sameSite: "Lax",
-    maxAge: 2592000, // 30 days
-  });
-
-  headers.set("Set-Cookie", cookie.toString());
+function createSessionId() {
+  return Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15);
 }
 
-function getCookieValue(headers: Headers, name: string) {
-  const cookies = headers.get("Cookie");
+function createSessionStorage() {
+  const sessions = new Map<SessionId, SessionData>();
 
-  if (cookies) {
-    const cookie = new Cookie(cookies);
-    return cookie.get(name) || undefined;
+  function getSessionId(request: Request) {
+    const cookieHeader = request.headers.get("Cookie");
+
+    if (!cookieHeader) {
+      return createSessionId();
+    }
+
+    const cookie = new Cookie(cookieHeader);
+    const sessionId = cookie.get("sessionId");
+
+    if (!sessionId) {
+      return createSessionId();
+    }
+
+    if (!sessions.has(sessionId)) {
+      sessions.set(sessionId, { sessionId });
+    }
+
+    return sessionId;
   }
-}
 
-export class SessionStore extends MemoryStore<SessionData> {
-  constructor(options: MemoryStoreOptions<SessionData> = {}) {
-    super({
-      idKey: "sessionId",
-      ...options,
-    });
+  function getSession(request: Request): SessionData {
+    const sessionId = getSessionId(request);
+    let session = sessions.get(sessionId);
+
+    if (!session) {
+      session = { sessionId };
+      sessions.set(sessionId, session);
+    }
+
+    return session;
   }
-}
 
-interface SessionOptions extends MemoryStoreOptions<SessionData> {
-  store?: SessionStore;
-}
-
-export function session(
-  options: SessionOptions = {},
-): Middleware {
-  const { store, ...storeOptions } = options;
-  const sessionStore = store || new SessionStore(storeOptions);
-
-  return async ({ headers, storage }, next) => {
-    const incomingSessionId = getCookieValue(headers, "sessionId");
-
-    // Get an existing session or create a new one
-    const session = sessionStore.getOrSet({
-      sessionId: incomingSessionId || sessionStore.createUniqueId(),
+  function setSessionCookie(headers: Headers, sessionId: string): void {
+    const cookie = new SetCookie({
+      name: "sessionId",
+      value: sessionId,
+      path: "/",
+      httpOnly: true,
+      sameSite: "Lax",
+      maxAge: 2592000, // 30 days
     });
 
-    // Store the session in the request context storage
-    storage.set(SESSION_DATA_KEY, session);
+    headers.set("Set-Cookie", cookie.toString());
+  }
 
-    // Call the next middleware/handler
+  return {
+    getSession,
+    setSessionCookie,
+  };
+}
+
+export default function sessionMiddleware(): Middleware {
+  const { getSession, setSessionCookie } = createSessionStorage();
+
+  return async ({ request, storage }, next) => {
+    const session = getSession(request);
+    const { sessionId } = session;
+
+    storage.set(SESSION_ID_KEY, sessionId);
+
     const response = await next();
 
-    if (!incomingSessionId) {
-      // Set the session cookie in the response
-      setSessionCookie(response.headers, session.sessionId);
-    }
+    setSessionCookie(response.headers, sessionId);
 
     return response;
   };
