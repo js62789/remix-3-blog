@@ -3,7 +3,7 @@ import { Buffer } from "node:buffer";
 import { createStorageKey, type Middleware } from "@remix-run/fetch-router";
 import { SESSION_DATA_KEY } from "./session.ts";
 
-const CSRF_KEY = createStorageKey<string>();
+export const CSRF_KEY = createStorageKey<string>();
 
 // Simple, in-memory csrf token store
 const csrfTokens = new Map<string, string>();

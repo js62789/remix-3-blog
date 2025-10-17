@@ -4,30 +4,28 @@ import {
   type RequestMethod,
 } from "@remix-run/fetch-router";
 import {
-  createSessionStore,
   SESSION_DATA_KEY,
+  SessionStore,
 } from "../app/server/middleware/session.ts";
 
-export function setupFakeSession(
+export function createSession(
   context: RequestContext,
+  store: SessionStore,
   sessionId: string,
-  options: { expiry?: number } = {},
 ) {
   // Simulate that the user has a session cookie
   context.headers.set("Cookie", `sessionId=${sessionId}`);
 
   const initialSession = {
     sessionId,
-    expiresAt: Date.now() + (options.expiry ?? 60000),
   };
 
-  // Create a fake session
-  const sessions = createSessionStore([initialSession]);
+  store.addItems([initialSession]);
 
   // Store the session in the context storage
   context.storage.set(SESSION_DATA_KEY, initialSession);
 
-  return sessions;
+  return store;
 }
 
 export function mockFunction<T extends (...args: any[]) => any>(

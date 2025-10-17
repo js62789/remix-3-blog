@@ -1,17 +1,12 @@
 import { Cookie, SetCookie } from "@remix-run/headers";
 import { createStorageKey, type Middleware } from "@remix-run/fetch-router";
-import { days, minutes } from "../utils/time.ts";
+import { MemoryStore, MemoryStoreOptions } from "../utils/memoryStore.ts";
 
 interface SessionData {
   sessionId: string;
-  expiresAt: number;
 }
 
 export const SESSION_DATA_KEY = createStorageKey<SessionData>();
-
-function createId() {
-  return Math.random().toString(36).substring(2, 15);
-}
 
 function setSessionCookie(headers: Headers, sessionId: string): void {
   const cookie = new SetCookie({
@@ -35,92 +30,31 @@ function getCookieValue(headers: Headers, name: string) {
   }
 }
 
-export function createSessionStore(
-  initialSessions: SessionData[] = [],
-): Map<string, SessionData> {
-  const store = new Map<string, SessionData>();
-  for (const session of initialSessions) {
-    store.set(session.sessionId, session);
-  }
-  return store;
-}
-
-class MemoryStore {
-  private sessions = createSessionStore();
-
-  constructor(store?: Map<string, SessionData>) {
-    if (store) {
-      this.sessions = store;
-    }
-  }
-
-  createSessionId(): string {
-    const sessionId = createId() + createId();
-
-    // Ensure the sessionId is unique
-    if (this.sessions.has(sessionId)) {
-      return this.createSessionId();
-    }
-
-    return sessionId;
-  }
-
-  getOrCreateSession(sessionId?: string, options: { expiry?: number } = {}) {
-    let session = sessionId && this.sessions.get(sessionId);
-    if (!session) {
-      session = this.createSession(
-        sessionId || this.createSessionId(),
-        options,
-      );
-    }
-    return session;
-  }
-
-  createSession(sessionId?: string, options: { expiry?: number } = {}) {
-    const session = {
-      sessionId: sessionId || this.createSessionId(),
-      expiresAt: Date.now() + (options.expiry ?? days(1)),
-    };
-    this.sessions.set(session.sessionId, session);
-    return session;
-  }
-
-  invalidateExpiredSessions() {
-    const now = Date.now();
-    for (const [sessionId, session] of this.sessions) {
-      if (session.expiresAt <= now) {
-        this.sessions.delete(sessionId);
-      }
-    }
+export class SessionStore extends MemoryStore<SessionData> {
+  constructor(options: MemoryStoreOptions<SessionData> = {}) {
+    super({
+      idKey: "sessionId",
+      ...options,
+    });
   }
 }
 
-type SessionOptions = {
-  // Optional session expiration time in milliseconds
-  expiry?: number;
-  // Optional timer function for testing purposes
-  timerFn?: typeof setInterval;
-  // Optional initial sessions for testing purposes
-  store?: Map<string, SessionData>;
-};
+interface SessionOptions extends MemoryStoreOptions<SessionData> {
+  store?: SessionStore;
+}
 
-export function session(options: SessionOptions = {}): Middleware {
-  const { expiry, timerFn, store } = options;
-
-  const sessionStore = new MemoryStore(store);
-
-  // Periodically invalidate expired sessions
-  (timerFn || setInterval)(
-    () => sessionStore.invalidateExpiredSessions(),
-    minutes(1),
-  );
+export function session(
+  options: SessionOptions = {},
+): Middleware {
+  const { store, ...storeOptions } = options;
+  const sessionStore = store || new SessionStore(storeOptions);
 
   return async ({ headers, storage }, next) => {
     const incomingSessionId = getCookieValue(headers, "sessionId");
 
     // Get an existing session or create a new one
-    const session = sessionStore.getOrCreateSession(incomingSessionId, {
-      expiry,
+    const session = sessionStore.getOrSet({
+      sessionId: incomingSessionId || sessionStore.createUniqueId(),
     });
 
     // Store the session in the request context storage

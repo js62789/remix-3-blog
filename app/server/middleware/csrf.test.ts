@@ -89,7 +89,6 @@ describe("CSRF Middleware", () => {
     // Create a fake sesfsion
     context.storage.set(SESSION_DATA_KEY, {
       sessionId: "test",
-      expiresAt: Date.now() + 10000,
     });
 
     // Execute the csrf middleware

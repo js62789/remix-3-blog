@@ -14,6 +14,7 @@ import Button, { buttonStyles } from "../../components/Button.tsx";
 import RestfulForm from "../../components/RestfulForm.tsx";
 import RestfulLink from "../../components/RestfulLink.tsx";
 import { validateCsrfToken } from "../../middleware/csrf.ts";
+import { CSRF_KEY } from "../../middleware/csrf.ts";
 
 export default {
   use: [],
@@ -55,7 +56,7 @@ export default {
                     </a>
                     <RestfulLink
                       method="DELETE"
-                      csrfToken={storage.get(SESSION_DATA_KEY).csrfToken}
+                      csrfToken={storage.get(CSRF_KEY)}
                       href={routes.admin.posts.destroy.href({
                         slug: post.slug,
                       })}
@@ -73,7 +74,7 @@ export default {
     async edit({ params, storage }) {
       const { slug } = params!;
       const post = await getPostBySlug(slug);
-      const csrfToken = storage.get(SESSION_DATA_KEY).csrfToken;
+      const csrfToken = storage.get(CSRF_KEY);
 
       if (!post) {
         return new Response("Not found", { status: 404 });
@@ -133,7 +134,7 @@ export default {
             <input
               type="hidden"
               name="_csrf"
-              value={storage.get(SESSION_DATA_KEY).csrfToken}
+              value={storage.get(CSRF_KEY)}
             />
             <div>
               <label>
