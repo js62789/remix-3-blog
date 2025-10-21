@@ -1,11 +1,34 @@
 import crypto from "node:crypto";
 import { Buffer } from "node:buffer";
-import { type Middleware } from "@remix-run/fetch-router";
+import type { Middleware } from "@remix-run/fetch-router";
 import * as sessionUtils from "./session.ts";
-import { updateSession } from "./session.ts";
+
+declare module "./session.ts" {
+  interface SessionData {
+    data?: {
+      csrfToken?: string;
+    };
+  }
+}
 
 export function createCsrfToken(bytes = 32) {
   return crypto.randomBytes(bytes).toString("hex"); // 64 hex chars for 32 bytes
+}
+
+export function getCsrfToken() {
+  const session = sessionUtils.getSession();
+
+  if (!session) {
+    throw new Error("Session not found");
+  }
+
+  const csrfToken = session?.data?.csrfToken;
+
+  if (!csrfToken || typeof csrfToken !== "string") {
+    throw new Error("CSRF token not found in session");
+  }
+
+  return csrfToken;
 }
 
 export function validateCsrfToken(sessionToken: string, formToken: string) {

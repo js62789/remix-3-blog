@@ -6,7 +6,6 @@ type SessionId = string;
 
 export interface SessionData {
   sessionId: SessionId;
-  data?: Record<string, unknown>;
 }
 
 export const SESSION_KEY = createStorageKey<SessionData>();

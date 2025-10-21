@@ -13,14 +13,14 @@ import AdminLayout from "../../components/AdminLayout.tsx";
 import Button, { buttonStyles } from "../../components/Button.tsx";
 import RestfulForm from "../../components/RestfulForm.tsx";
 import RestfulLink from "../../components/RestfulLink.tsx";
-import { validateCsrfToken } from "../../middleware/csrf.ts";
-import { CSRF_KEY } from "../../middleware/csrf.ts";
+import { getCsrfToken, validateCsrfToken } from "../../middleware/csrf.ts";
 
 export default {
   use: [],
   handlers: {
-    async index({ storage }) {
+    async index() {
       const posts = await getAllPosts();
+      const csrfToken = getCsrfToken();
 
       return render(
         <AdminLayout>
@@ -56,7 +56,7 @@ export default {
                     </a>
                     <RestfulLink
                       method="DELETE"
-                      csrfToken={storage.get(CSRF_KEY)}
+                      csrfToken={csrfToken}
                       href={routes.admin.posts.destroy.href({
                         slug: post.slug,
                       })}
@@ -71,13 +71,13 @@ export default {
         </AdminLayout>,
       );
     },
-    async edit({ params, storage }) {
+    async edit({ params }) {
       const { slug } = params!;
       const post = await getPostBySlug(slug);
-      const csrfToken = storage.get(CSRF_KEY);
+      const csrfToken = getCsrfToken();
 
       if (!post) {
-        return new Response("Not found", { status: 404 });
+        return new Response("Post not found", { status: 404 });
       }
 
       return render(
@@ -126,7 +126,9 @@ export default {
         </AdminLayout>,
       );
     },
-    new({ storage }) {
+    new() {
+      const csrfToken = getCsrfToken();
+
       return render(
         <AdminLayout>
           <h1>Create New Post</h1>
@@ -134,7 +136,7 @@ export default {
             <input
               type="hidden"
               name="_csrf"
-              value={storage.get(CSRF_KEY)}
+              value={csrfToken}
             />
             <div>
               <label>
