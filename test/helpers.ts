@@ -1,14 +1,14 @@
 import { AppStorage, type RequestMethod } from "@remix-run/fetch-router";
-import { SESSION_ID_KEY } from "../app/server/middleware/session.ts";
+import { SESSION_KEY } from "../app/server/middleware/session.ts";
 
 export function mockFunction<T extends (...args: any[]) => any>(
   fn: T,
-): T & { calls: unknown[][] } {
-  const calls: unknown[][] = [];
+): T & { calls: any[][] } {
+  const calls: any[][] = [];
   const mock = function (...args: Parameters<T>): ReturnType<T> {
     calls.push(args);
     return fn(...args);
-  } as T & { calls: unknown[][] };
+  } as T & { calls: any[][] };
 
   mock.calls = calls;
   return mock;
@@ -43,7 +43,7 @@ export function createMockContext(mockOptions: MockContextOptions = {}) {
   };
 
   if (sessionId) {
-    context.storage.set(SESSION_ID_KEY, sessionId);
+    context.storage.set(SESSION_KEY, { sessionId });
   }
 
   return context;

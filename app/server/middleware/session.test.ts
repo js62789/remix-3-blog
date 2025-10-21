@@ -1,6 +1,6 @@
 import * as assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import session, { SESSION_ID_KEY } from "./session.ts";
+import session, { SESSION_KEY } from "./session.ts";
 import { createMockContext } from "../../../test/helpers.ts";
 import { mockFunction } from "../../../test/helpers.ts";
 
@@ -16,7 +16,7 @@ describe("Session Middleware", () => {
       new Promise<Response>((resolve) => resolve(new Response("Next called")))
     );
 
-    // Execute the session middleware
+    // TODO use dependency injection instead
     const response = await handler(
       context,
       next,
@@ -24,7 +24,7 @@ describe("Session Middleware", () => {
 
     assert.ok(response, "Response should be defined");
     assert.equal(
-      context.storage.get(SESSION_ID_KEY),
+      context.storage.get(SESSION_KEY)?.sessionId,
       sessionId,
       "Request context should store the sessionId from the cookie",
     );
@@ -50,7 +50,7 @@ describe("Session Middleware", () => {
       next,
     );
 
-    const requestContextId = context.storage.get(SESSION_ID_KEY);
+    const requestContextId = context.storage.get(SESSION_KEY)?.sessionId;
     const cookieId = response?.headers.get("Set-Cookie")?.split(";")[0]
       .split("=")[1];
 
