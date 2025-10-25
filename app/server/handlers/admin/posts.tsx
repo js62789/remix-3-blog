@@ -13,14 +13,14 @@ import AdminLayout from "../../components/AdminLayout.tsx";
 import Button, { buttonStyles } from "../../components/Button.tsx";
 import RestfulForm from "../../components/RestfulForm.tsx";
 import RestfulLink from "../../components/RestfulLink.tsx";
-import { getCsrfToken, validateCsrfToken } from "../../middleware/csrf.ts";
+import { validateCsrfToken } from "../../middleware/csrf.ts";
+import Form from "../../components/Form.tsx";
 
 export default {
   use: [],
   handlers: {
     async index() {
       const posts = await getAllPosts();
-      const csrfToken = getCsrfToken();
 
       return render(
         <AdminLayout>
@@ -56,7 +56,6 @@ export default {
                     </a>
                     <RestfulLink
                       method="DELETE"
-                      csrfToken={csrfToken}
                       href={routes.admin.posts.destroy.href({
                         slug: post.slug,
                       })}
@@ -74,7 +73,6 @@ export default {
     async edit({ params }) {
       const { slug } = params!;
       const post = await getPostBySlug(slug);
-      const csrfToken = getCsrfToken();
 
       if (!post) {
         return new Response("Post not found", { status: 404 });
@@ -87,7 +85,6 @@ export default {
             method="PUT"
             action={routes.admin.posts.update.href({ slug: post.slug })}
           >
-            <input type="hidden" name="_csrf" value={csrfToken} />
             <div>
               <label>
                 Title: <input type="text" name="title" value={post.title} />
@@ -127,16 +124,13 @@ export default {
       );
     },
     new() {
-      const csrfToken = getCsrfToken();
-
       return render(
         <AdminLayout>
           <h1>Create New Post</h1>
-          <form method="post" action={routes.admin.posts.create.href()}>
+          <Form method="post" action={routes.admin.posts.create.href()}>
             <input
               type="hidden"
               name="_csrf"
-              value={csrfToken}
             />
             <div>
               <label>
@@ -149,7 +143,7 @@ export default {
               </label>
             </div>
             <Button type="submit">Create Post</Button>
-          </form>
+          </Form>
         </AdminLayout>,
       );
     },

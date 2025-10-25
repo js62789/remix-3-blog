@@ -1,4 +1,5 @@
 import type { Remix } from "@remix-run/dom";
+import Form from "./Form.tsx";
 
 interface RestfulLinkProps extends Remix.Props<"a"> {
   csrfToken: string;
@@ -19,8 +20,7 @@ interface RestfulLinkProps extends Remix.Props<"a"> {
  */
 export default function RestfulLink(
   this: Remix.Handle,
-  { csrfToken, href, method, methodOverrideField = "_method", children }:
-    RestfulLinkProps,
+  { href, method, methodOverrideField = "_method", children }: RestfulLinkProps,
 ) {
   method = method.toUpperCase();
 
@@ -29,7 +29,7 @@ export default function RestfulLink(
   }
 
   return (
-    <form
+    <Form
       action={href}
       method="POST"
       style={{ display: "inline" }}
@@ -37,7 +37,6 @@ export default function RestfulLink(
       {method !== "POST" && (
         <input type="hidden" name={methodOverrideField} value={method} />
       )}
-      <input type="hidden" name="_csrf" value={csrfToken} />
       <button
         type="submit"
         role="link"
@@ -49,6 +48,6 @@ export default function RestfulLink(
       >
         {children}
       </button>
-    </form>
+    </Form>
   );
 }

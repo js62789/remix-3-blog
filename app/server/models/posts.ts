@@ -14,7 +14,7 @@ interface Post {
   updatedAt?: Date;
 }
 
-const postStorage = new LocalFileStorage("./posts");
+const postStorage = new LocalFileStorage("./data/posts");
 
 export async function getPublishedPosts() {
   const posts = await getAllPosts();

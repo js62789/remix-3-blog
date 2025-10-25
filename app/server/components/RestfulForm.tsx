@@ -1,4 +1,5 @@
 import type { Remix } from "@remix-run/dom";
+import Form from "./Form.tsx";
 
 export interface RestfulFormProps extends Remix.Props<"form"> {
   /**
@@ -27,11 +28,11 @@ export default function RestfulForm({
   }
 
   return (
-    <form method="POST" {...props}>
+    <Form method="POST" {...props}>
       {method !== "POST" && (
         <input type="hidden" name={methodOverrideField} value={method} />
       )}
       {props.children}
-    </form>
+    </Form>
   );
 }

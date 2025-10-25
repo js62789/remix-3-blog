@@ -4,11 +4,16 @@ import { getStorage } from "./context.ts";
 
 type SessionId = string;
 
-export interface SessionData {
+export interface Session {
   sessionId: SessionId;
+  data?: SessionData;
 }
 
-export const SESSION_KEY = createStorageKey<SessionData>();
+export interface SessionData {
+  [key: string]: unknown;
+}
+
+export const SESSION_KEY = createStorageKey<Session>();
 
 export function getSession() {
   const storage = getStorage();
@@ -16,12 +21,18 @@ export function getSession() {
 }
 
 export function updateSession(
-  newData: Partial<SessionData>,
+  newData: Partial<Session>,
 ) {
   const storage = getStorage();
   const session = storage.get(SESSION_KEY);
   if (session) {
-    Object.assign(session, newData);
+    Object.assign(session, {
+      ...newData,
+      data: {
+        ...session.data,
+        ...newData.data,
+      },
+    });
     storage.set(SESSION_KEY, session);
   }
   return session;
@@ -57,7 +68,7 @@ function setSessionCookie(headers: Headers, sessionId: string): void {
 }
 
 function createSessionStorage() {
-  const sessions = new Map<SessionId, SessionData>();
+  const sessions = new Map<SessionId, Session>();
 
   function getSessionId(request: Request) {
     const sessionId = getSessionCookie(request.headers);
@@ -73,7 +84,7 @@ function createSessionStorage() {
     return sessionId;
   }
 
-  function getSession(request: Request): SessionData {
+  function getSession(request: Request): Session {
     const sessionId = getSessionId(request);
     let session = sessions.get(sessionId);
 

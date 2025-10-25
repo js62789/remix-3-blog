@@ -5,9 +5,7 @@ import * as sessionUtils from "./session.ts";
 
 declare module "./session.ts" {
   interface SessionData {
-    data?: {
-      csrfToken?: string;
-    };
+    csrfToken?: string;
   }
 }
 
@@ -40,10 +38,10 @@ export function validateCsrfToken(sessionToken: string, formToken: string) {
 }
 
 type CsrfOptions = {
-  getSession?: () => sessionUtils.SessionData | undefined;
+  getSession?: () => sessionUtils.Session | undefined;
   updateSession?: (
-    newData: Partial<sessionUtils.SessionData>,
-  ) => sessionUtils.SessionData | undefined;
+    newData: Partial<sessionUtils.Session>,
+  ) => sessionUtils.Session | undefined;
 };
 
 export default function csrf(options: CsrfOptions = {}): Middleware {

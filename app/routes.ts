@@ -1,8 +1,13 @@
-import { resources, route } from "@remix-run/fetch-router";
+import { formAction, resources, route } from "@remix-run/fetch-router";
 
 export const routes = route({
   assets: "/assets/*path",
   home: "/",
+  auth: {
+    register: formAction("/register"),
+    login: formAction("/login"),
+    logout: formAction("/logout"),
+  },
   sitemap: "/sitemap.txt",
   posts: resources("posts", {
     only: ["index", "show"],

@@ -1,6 +1,7 @@
 import { Remix } from "@remix-run/dom";
 import { routes } from "../../routes.ts";
 import NavLink from "./NavLink.tsx";
+import { getSession } from "../middleware/session.ts";
 
 export const headerStyles = {
   backgroundColor: "#262626ff",
@@ -27,6 +28,9 @@ function Nav({ children }: Remix.Props<"nav">) {
 }
 
 export default function Header() {
+  const user = getSession()?.data?.user;
+  const isAdmin = user?.role === "admin";
+
   return (
     <header
       css={headerStyles}
@@ -36,7 +40,16 @@ export default function Header() {
         <NavLink href={routes.posts.index.href()}>Blog</NavLink>
       </Nav>
       <Nav>
-        <NavLink href={routes.admin.index.href()}>Admin</NavLink>
+        {user
+          ? (
+            <>
+              {isAdmin && (
+                <NavLink href={routes.admin.index.href()}>Admin</NavLink>
+              )}
+              <NavLink href={routes.auth.logout.index.href()}>Logout</NavLink>
+            </>
+          )
+          : <NavLink href={routes.auth.login.index.href()}>Login</NavLink>}
       </Nav>
     </header>
   );
