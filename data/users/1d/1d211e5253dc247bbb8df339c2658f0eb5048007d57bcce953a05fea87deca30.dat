@@ -1,7 +1,7 @@
 {
   "id": "asdolatwtea5zkjxnbq6b7",
-  "email": "",
-  "password": "",
+  "email": "test@example.com",
+  "password": "test",
   "role": "admin",
   "createdAt": "2025-10-22T13:23:38.287Z"
 }
