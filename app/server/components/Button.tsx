@@ -1,7 +1,7 @@
 import type { Remix } from "@remix-run/dom";
 
 export const buttonStyles = {
-  backgroundColor: "#007bff",
+  backgroundColor: "#2d6aaa",
   border: "none",
   borderRadius: "4px",
   color: "white",

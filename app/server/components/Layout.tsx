@@ -1,6 +1,7 @@
+import type { Remix } from "@remix-run/dom";
 import { routes } from "../../routes.ts";
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children: Remix.RemixNode }) {
   return (
     <html lang="en">
       <head>

@@ -10,7 +10,8 @@
   "tasks": {
     "dev": "deno run --allow-env --allow-net --allow-read --allow-write --watch app/server/entry.tsx",
     "dev:browser": "deno bundle app/client/**/*.tsx --outdir=public/assets --minify --code-splitting --platform=browser --format=esm --sourcemap --watch",
-    "start": "deno run --allow-env --allow-net --allow-read --allow-write app/server/entry.tsx"
+    "start": "deno run --allow-env --allow-net --allow-read --allow-write app/server/entry.tsx",
+    "test": "deno test --no-check --allow-env --allow-net --allow-sys --allow-read --allow-run --allow-write --unstable-detect-cjs"
   },
   "imports": {
     "@remix-run/dom": "npm:@remix-run/dom",
@@ -19,6 +20,7 @@
     "@remix-run/file-storage": "npm:@remix-run/file-storage",
     "@remix-run/headers": "npm:@remix-run/headers",
     "@remix-run/node-fetch-server": "npm:@remix-run/node-fetch-server",
-    "@remix-run/lazy-file": "npm:@remix-run/lazy-file"
+    "@remix-run/lazy-file": "npm:@remix-run/lazy-file",
+    "accessibility-checker": "npm:accessibility-checker"
   }
 }

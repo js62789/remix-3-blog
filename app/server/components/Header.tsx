@@ -23,23 +23,23 @@ const navStyles = {
   "& > a:hover": { backgroundColor: "rgba(255, 255, 255, 0.1)" },
 };
 
-function Nav({ children }: Remix.Props<"nav">) {
-  return <nav css={navStyles}>{children}</nav>;
+function Nav({ children, ...rest }: Remix.Props<"nav">) {
+  return <nav css={navStyles} {...rest}>{children}</nav>;
 }
 
 export default function Header() {
   const user = getSession()?.data?.user;
-  const isAdmin = user?.role === "admin";
+  const isAdmin = user ? user?.role === "admin" : false;
 
   return (
     <header
       css={headerStyles}
     >
-      <Nav>
+      <Nav aria-label="Main navigation">
         <NavLink href={routes.home.href()}>Home</NavLink>
         <NavLink href={routes.posts.index.href()}>Blog</NavLink>
       </Nav>
-      <Nav>
+      <Nav aria-label="User navigation">
         {user
           ? (
             <>
