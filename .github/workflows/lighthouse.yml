@@ -8,4 +8,5 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
+      - run: deno install --allow-scripts=npm:dprint,npm:@remix-run/style,npm:@remix-run/events,npm:@remix-run/dom
       - run: deno run -A npm:@lhci/cli@0.15.x autorun
