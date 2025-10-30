@@ -3,11 +3,11 @@ module.exports = {
     collect: {
       startServerCommand: "deno task start",
       url: [
-        "http://localhost:3000/",
-        "http://localhost/posts",
-        "http://localhost/posts/my-first-post",
-        "http://localhost/login",
-        "http://localhost/register",
+        "http://localhost:3003",
+        "http://localhost:3003/posts",
+        "http://localhost:3003/posts/my-first-post",
+        "http://localhost:3003/login",
+        "http://localhost:3003/register",
       ],
     },
     upload: {
