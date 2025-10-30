@@ -8,4 +8,7 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - run: deno run --node-modules-dir=auto -A npm:@lhci/cli@0.15.x autorun
+      - name: Run Lighthouse CI Collect
+        run: deno run --node-modules-dir=auto -A npm:@lhci/cli@0.15.x collect
+      - name: Run Lighthouse CI Upload
+        run: deno run --node-modules-dir=auto -A npm:@lhci/cli@0.15.x upload
