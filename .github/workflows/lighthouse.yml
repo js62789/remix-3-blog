@@ -8,5 +8,4 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - run: DENO_NO_PACKAGE_SCRIPTS=1 deno install
-      - run: deno run -A npm:@lhci/cli@0.15.x autorun
+      - run: DENO_NO_PACKAGE_SCRIPTS=1 deno run -A npm:@lhci/cli@0.15.x autorun
