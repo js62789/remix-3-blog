@@ -1,13 +1,13 @@
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: "deno task start",
+      startServerCommand: "PORT=3000 deno task start",
       url: [
-        "http://localhost:3003",
-        "http://localhost:3003/posts",
-        "http://localhost:3003/posts/my-first-post",
-        "http://localhost:3003/login",
-        "http://localhost:3003/register",
+        "http://localhost:3000",
+        "http://localhost:3000/posts",
+        "http://localhost:3000/posts/my-first-post",
+        "http://localhost:3000/login",
+        "http://localhost:3000/register",
       ],
     },
     upload: {
