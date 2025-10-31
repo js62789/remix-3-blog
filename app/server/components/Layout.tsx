@@ -17,7 +17,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="icon" href="/favicons/favicon-192.png" sizes="192x192" />
         <script
           type="module"
-          async
+          defer
           src={routes.assets.href({ path: "entry.js" })}
         />
         <style
