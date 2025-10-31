@@ -10,6 +10,9 @@ module.exports = {
         "http://localhost:3000/register",
       ],
     },
+    assert: {
+      preset: "lighthouse:all",
+    },
     upload: {
       target: "temporary-public-storage",
     },

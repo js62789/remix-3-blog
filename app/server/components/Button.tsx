@@ -1,7 +1,7 @@
 import type { Remix } from "@remix-run/dom";
 
 export const buttonStyles = {
-  backgroundColor: "#007bff",
+  backgroundColor: "#ff8f00",
   border: "none",
   borderRadius: "4px",
   color: "white",
@@ -9,7 +9,7 @@ export const buttonStyles = {
   display: "inline-block",
   padding: "10px 20px",
   textDecoration: "none",
-  "&:hover": { backgroundColor: "#0056b3" },
+  "&:hover": { backgroundColor: "#e07b00" },
 };
 
 export default function Button(props: Remix.Props<"button">) {

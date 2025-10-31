@@ -7,6 +7,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Deno Remix 3</title>
+        <meta
+          name="description"
+          content="A demo blog web application leveraging Remix 3 and Deno"
+        />
         <script
           type="module"
           async
