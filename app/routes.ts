@@ -2,6 +2,7 @@ import { formAction, resources, route } from "@remix-run/fetch-router";
 
 export const routes = route({
   assets: "/assets/*path",
+  favicons: "/favicons/*path",
   home: "/",
   auth: {
     register: formAction("/register"),

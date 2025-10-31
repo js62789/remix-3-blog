@@ -32,9 +32,10 @@ export default async function Home() {
       <Container style={{ display: "flex", gap: "20px" }}>
         {posts.slice(0, 3).map((post) => (
           <Card key={post.id} style={{ flex: 1 }}>
-            <h2>{post.title}</h2>
+            <a href={routes.posts.show.href({ slug: post.slug })}>
+              <h2>{post.title}</h2>
+            </a>
             <p>{post.excerpt}</p>
-            <a href={routes.posts.show.href({ slug: post.slug })}>Read More</a>
           </Card>
         ))}
       </Container>

@@ -22,6 +22,7 @@ router.use(csrf());
 
 router.map(routes.sitemap, sitemapHandlers);
 router.map(routes.assets, publicHandlers.assets);
+router.map(routes.favicons, publicHandlers.favicons);
 router.map(routes.home, homeHandlers);
 router.map(routes.auth, authHandlers);
 router.map(routes.posts, postsHandlers);

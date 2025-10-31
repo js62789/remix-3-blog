@@ -5,6 +5,7 @@ import { routes } from "../../routes.ts";
 
 const publicDir = path.join(import.meta.dirname!, "../../..", "public");
 const publicAssetsDir = path.join(publicDir, "assets");
+const publicFaviconsDir = path.join(publicDir, "favicons");
 
 function isNoEntityError(
   error: unknown,
@@ -33,4 +34,10 @@ function serveFile(filename: string): Response {
 
 export const assets: InferRouteHandler<typeof routes.assets> = ({ params }) => {
   return serveFile(path.join(publicAssetsDir, params.path));
+};
+
+export const favicons: InferRouteHandler<typeof routes.favicons> = (
+  { params },
+) => {
+  return serveFile(path.join(publicFaviconsDir, params.path));
 };

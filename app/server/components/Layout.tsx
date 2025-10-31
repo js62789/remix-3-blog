@@ -7,9 +7,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Deno Remix 3</title>
+        <meta
+          name="description"
+          content="A demo blog web application leveraging Remix 3 and Deno"
+        />
+        <link rel="icon" href="/favicons/favicon-32.png" sizes="32x32" />
+        <link rel="icon" href="/favicons/favicon-128.png" sizes="128x128" />
+        <link rel="icon" href="/favicons/favicon-180.png" sizes="180x180" />
+        <link rel="icon" href="/favicons/favicon-192.png" sizes="192x192" />
         <script
           type="module"
-          async
+          defer
           src={routes.assets.href({ path: "entry.js" })}
         />
         <style
