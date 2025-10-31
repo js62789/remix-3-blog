@@ -13,7 +13,6 @@ import Container from "../components/Container.tsx";
  */
 export const captureError: Middleware = async (_context, next) => {
   const response = await next();
-  console.log("response format", response.headers.get("content-type"));
   const errorMessage = !response.ok && !response.redirected &&
     response.headers.get("content-type") !== "text/html; charset=UTF-8" &&
     await response.text();
