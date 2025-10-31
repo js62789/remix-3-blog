@@ -13,7 +13,7 @@ function isNoEntityError(
   return error instanceof Error && "code" in error && error.code === "ENOENT";
 }
 
-function serveFile(filename: string): Response {
+function serveFile(filename: string, headers?: HeadersInit): Response {
   try {
     const file = openFile(filename);
 
@@ -21,6 +21,7 @@ function serveFile(filename: string): Response {
       headers: {
         "Cache-Control": "no-store, must-revalidate",
         "Content-Type": file.type,
+        ...headers,
       },
     });
   } catch (error) {
@@ -39,5 +40,9 @@ export const assets: InferRouteHandler<typeof routes.assets> = ({ params }) => {
 export const favicons: InferRouteHandler<typeof routes.favicons> = (
   { params },
 ) => {
-  return serveFile(path.join(publicFaviconsDir, params.path));
+  const filename = path.join(publicFaviconsDir, params.path);
+  return serveFile(filename, {
+    // Favicons rarely change, so we can cache them for a day
+    "Cache-Control": "public, max-age=86400",
+  });
 };
