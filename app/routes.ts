@@ -9,6 +9,7 @@ export const routes = route({
     login: formAction("/login"),
     logout: formAction("/logout"),
   },
+  account: "/account",
   sitemap: "/sitemap.txt",
   posts: resources("posts", {
     only: ["index", "show"],

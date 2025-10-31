@@ -46,6 +46,7 @@ export default function Header() {
               {isAdmin && (
                 <NavLink href={routes.admin.index.href()}>Admin</NavLink>
               )}
+              <NavLink href={routes.account.href()}>Profile</NavLink>
               <NavLink href={routes.auth.logout.index.href()}>Logout</NavLink>
             </>
           )

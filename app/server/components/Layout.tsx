@@ -31,7 +31,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
           /* Base Styles */
           body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.5; min-height: 100vh; color: #333; }
-          input, textarea { border: 1px solid #ccc; border-radius: 4px; padding: 4px; width: 100%; }
+          input, textarea { border: 1px solid #ccc; border-radius: 4px; padding: 4px; margin-bottom: 10px; width: 100%; }
           table { border-collapse: collapse; width: 100%; }
           th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
           th { background: #eee; }
