@@ -5,7 +5,7 @@ interface User {
   email: string;
   password: string;
   role: "user" | "admin";
-  createdAt?: Date;
+  createdAt: Date;
 }
 
 const usersStorage = new LocalFileStorage("./data/users");
@@ -21,6 +21,11 @@ export async function getAllUsers() {
     user.createdAt = new Date(user.createdAt!);
     return user;
   }));
+}
+
+export async function getUserById(id: string) {
+  const users = await getAllUsers();
+  return users.find((user) => user.id === id);
 }
 
 async function createUserId() {

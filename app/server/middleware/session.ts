@@ -20,6 +20,11 @@ export function getSession() {
   return storage.has(SESSION_KEY) ? storage.get(SESSION_KEY) : undefined;
 }
 
+export function getUserId() {
+  const session = getSession();
+  return session?.data?.user?.id as string | undefined;
+}
+
 export function updateSession(
   newData: Partial<Session>,
 ) {
