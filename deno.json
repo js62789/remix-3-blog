@@ -8,8 +8,10 @@
     ]
   },
   "tasks": {
-    "dev": "deno run --allow-env --allow-net --allow-read --allow-write --watch app/server/entry.tsx",
+    "dev": "deno task dev:server & deno task dev:browser",
+    "dev:server": "deno run --allow-env --allow-net --allow-read --allow-write --watch app/server/entry.tsx",
     "dev:browser": "deno bundle app/client/**/*.tsx --outdir=public/assets --minify --code-splitting --platform=browser --format=esm --sourcemap --watch",
+    "build": "deno bundle app/client/**/*.tsx --outdir=public/assets --minify --code-splitting --platform=browser --format=esm --sourcemap",
     "start": "deno run --allow-env --allow-net --allow-read --allow-write app/server/entry.tsx"
   },
   "imports": {

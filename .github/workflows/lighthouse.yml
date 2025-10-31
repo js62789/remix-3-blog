@@ -8,6 +8,8 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
+      - name: Build Browser Bundles
+        run: deno task build
       - name: Run Lighthouse CI Collect
         run: deno run --node-modules-dir=auto -A npm:@lhci/cli@0.15.x collect
       - name: Run Lighthouse CI Assert

@@ -1,6 +1,7 @@
 module.exports = {
   ci: {
     collect: {
+      numberOfRuns: 1,
       startServerCommand: "PORT=3000 deno task start",
       url: [
         "http://localhost:3000",
